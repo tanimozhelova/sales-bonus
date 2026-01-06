@@ -23,7 +23,7 @@ function calculateSimpleRevenue(purchase, _product) {
     const fullPrice = sale_price * quantity;
     const revenueWithDiscount = fullPrice * (1 - decimalDiscount);
     
-    return Math.round(revenueWithDiscount * 100) / 100;
+    return revenueWithDiscount;
 }
 
 /**
@@ -34,11 +34,13 @@ function calculateSimpleRevenue(purchase, _product) {
  * @returns {number}
  */
 function calculateBonusByProfit(index, total, seller) {
-    const { profit } = seller;// @TODO: Расчет бонуса от позиции в рейтинге
+    // @TODO: Расчет бонуса от позиции в рейтинге
     if (total <= 0) 
         return 0;
     if (index < 0 || index >= total) 
         return 0;
+
+    const { profit } = seller;
     
     if (index === 0) {
         return Math.round(profit * 0.15 * 100) / 100;
@@ -58,6 +60,7 @@ function calculateBonusByProfit(index, total, seller) {
  * @returns {{revenue, top_products, bonus, name, sales_count, profit, seller_id}[]}
  */
 function analyzeSalesData(data, options) {
+
    
     // @TODO: Проверка входных данных
     if (!data
@@ -173,5 +176,4 @@ profit: parseFloat(seller.profit.toFixed(2)),
 sales_count: seller.sales_count,        
 top_products: seller.top_products,        
 bonus: parseFloat(seller.bonus.toFixed(2))    }));
-
 }
